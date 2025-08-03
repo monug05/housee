@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>House Price Predictor</title>
+    <title>House Price Prediction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body, html {
@@ -13,13 +12,14 @@
         }
 
         .form-container {
-            max-width: 650px;
+            width: 650px;
             margin: 80px auto;
             background-color: rgba(255, 255, 255, 0.97);
             border-radius: 12px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
             overflow-y: auto;
             max-height: 90vh;
+            padding: 20px;
         }
 
         .card-body {
@@ -31,72 +31,140 @@
             top: 0;
             z-index: 1;
         }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .prediction {
+            margin-top: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div class="container form-container shadow">
-        <div class="card">
-            <div class="card-header text-center bg-primary text-white">
-                <h2>🏠 House Price Predictor</h2>
-            </div>
-            <div class="card-body">
-                <form action="/" method="POST">
-                    <div class="mb-3">
-                        <label for="carpet_area" class="form-label">Carpet Area (in sq ft)</label>
-                        <input type="number" step="any" class="form-control" id="carpet_area" name="carpet_area" required>
+    <div class="form-container">
+        <h1 class="text-center mb-4">House Price Prediction</h1>
+        <form method="POST">
+            <!-- Numerical Inputs -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="price">Price (in rupees):</label>
+                        <input type="number" class="form-control" id="price" name="price" step="0.01" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="carpet_area">Carpet Area (sqft):</label>
+                        <input type="number" class="form-control" id="carpet_area" name="carpet_area" step="0.01" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="super_area">Super Area (sqft):</label>
+                        <input type="number" class="form-control" id="super_area" name="super_area" step="0.01" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="status">Status:</label>
                         <select class="form-control" id="status" name="status" required>
                             <option value="Ready to Move">Ready to Move</option>
                             <option value="Under Construction">Under Construction</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="bathroom" class="form-label">Bathrooms</label>
-                        <input type="number" class="form-control" id="bathroom" name="bathroom" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="balcony" class="form-label">Balcony</label>
-                        <input type="number" class="form-control" id="balcony" name="balcony" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="car_parking" class="form-label">Car Parking</label>
-                        <input type="number" class="form-control" id="car_parking" name="car_parking" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="super_area" class="form-label">Super Area (in sq ft)</label>
-                        <input type="number" step="any" class="form-control" id="super_area" name="super_area" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="current_floor" class="form-label">Current Floor</label>
-                        <input type="number" class="form-control" id="current_floor" name="current_floor" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="total_floors" class="form-label">Total Floors</label>
-                        <input type="number" class="form-control" id="total_floors" name="total_floors" required>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-success px-5">Predict Price</button>
-                    </div>
-                </form>
-
-                {% if prediction %}
-                <div class="alert alert-info text-center mt-4">
-                    <strong>Predicted Price:</strong> ₹{{ prediction }} Lakh
                 </div>
-                {% endif %}
-
-                {% if error %}
-                <div class="alert alert-danger text-center mt-4">
-                    <strong>Error:</strong> {{ error }}
-                </div>
-                {% endif %}
             </div>
-        </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- More form groups in similar row-column arrangement -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="furnishing">Furnishing:</label>
+                        <select class="form-control" id="furnishing" name="furnishing" required>
+                            <option value="Semi-Furnished">Semi-Furnished</option>
+                            <option value="Unfurnished">Unfurnished</option>
+                            <option value="Furnished">Furnished</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <select class="form-control" id="location" name="location" required>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="ahmedabad">Ahmedabad</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="faridabad">Faridabad</option>
+                            <option value="greater-noida">Greater Noida</option>
+                            <option value="gurgaon">Gurgaon</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="jaipur">Jaipur</option>
+                            <option value="kolkata">Kolkata</option>
+                            <option value="new-delhi">New Delhi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Features -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="bathroom">Bathrooms:</label>
+                        <input type="number" class="form-control" id="bathroom" name="bathroom" min="1" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="balcony">Balconies:</label>
+                        <input type="number" class="form-control" id="balcony" name="balcony" min="0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="car_parking">Car Parking:</label>
+                        <input type="number" class="form-control" id="car_parking" name="car_parking" min="0" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="current_floor">Current Floor:</label>
+                        <input type="number" class="form-control" id="current_floor" name="current_floor" min="0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="total_floors">Total Floors:</label>
+                        <input type="number" class="form-control" id="total_floors" name="total_floors" min="1" required>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Predict Price</button>
+        </form>
+
+        {% if prediction %}
+        <div class="prediction">
+            <h2>Predicted Price: {{ prediction }} Lacs</h2>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
